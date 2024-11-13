@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Caja Fuerte Interactiva - Banco BBVA</title>
+    <link rel="icon" href="imagenes/caja.ico" type="image/x-icon">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .contenedor {
+            text-align: center;
+            width: 400px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .titulo {
+            font-size: 24px;
+            color: #0070C0;
+            margin-bottom: 20px;
+        }
+        .cajaFuerte img {
+            width: 150px;
+            transition: transform 0.3s;
+        }
+        .cajaFuerte img:hover {
+            transform: scale(1.05);
+        }
+        .pantalla {
+            font-size: 24px;
+            text-align: center;
+            border: 2px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+        .teclado {
+            display: grid;
+            grid-template-columns: repeat(3, 60px);
+            gap: 10px;
+            justify-content: center;
+        }
+        .teclado button {
+            font-size: 18px;
+            padding: 15px;
+            background-color: #0070C0;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .teclado button:hover {
+            background-color: #005fa3;
+        }
+        .botonIntentar {
+            margin-top: 10px;
+            background-color: #28a745;
+            color: #fff;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .botonIntentar:hover {
+            background-color: #218838;
+        }
+        .intentos-info, .pistas, .resultado {
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        .botonReiniciar {
+            background-color: #d9534f;
+            color: #fff;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: none;
+        }
+        .botonReiniciar:hover {
+            background-color: #c9302c;
+        }
+        #cajaAbierta, #policia {
+            display: none;
+            margin-top: 20px;
+            text-align: center;
+        }
+        #cajaAbierta img, #policia img {
+            width: 100px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="contenedor">
+        <div class="titulo">BANCO BBVA - Caja Fuerte Interactiva</div>
+        <div class="cajaFuerte">
+            <img src="imagenes/cajaFuerte.png" alt="Caja Fuerte">
+            <p>Introduce la combinación de tres números (0 a 9) para abrir la caja fuerte.</p>
+            <div class="pantalla" id="pantalla">_ _ _</div>
+            <div class="teclado">
+                <!-- Botones numéricos -->
+                <button onclick="añadirNumero(1)">1</button>
+                <button onclick="añadirNumero(2)">2</button>
+                <button onclick="añadirNumero(3)">3</button>
+                <button onclick="añadirNumero(4)">4</button>
+                <button onclick="añadirNumero(5)">5</button>
+                <button onclick="añadirNumero(6)">6</button>
+                <button onclick="añadirNumero(7)">7</button>
+                <button onclick="añadirNumero(8)">8</button>
+                <button onclick="añadirNumero(9)">9</button>
+                <button onclick="borrar()">⟵</button>
+                <button onclick="añadirNumero(0)">0</button>
+                <button onclick="intentar()">✔</button>
+            </div>
+            <div class="intentos-info" id="intentos">Intentos restantes: 5</div>
+            <div class="pistas">
+                <div id="pista1"></div>
+                <div id="pista2"></div>
+                <div id="pista3"></div>
+            </div>
+            <button class="botonReiniciar" id="botonReiniciar" onclick="reiniciar()">Reiniciar</button>
+        </div>
+        <div id="cajaAbierta">
+            <h2>¡Felicidades! Has abierto la caja fuerte</h2>
+            <img src="imagenes/abierta.jpg" alt="Caja Abierta">
+        </div>
+        <div id="policia">
+            <h2>Has sido atrapado intentando robar la caja fuerte</h2>
+            <img src="imagenes/detenido.png" alt="Detenido">
+        </div>
+    </div>
+
+    <script>
+        let codigo1 = Math.floor(Math.random() * 10);
+        let codigo2 = Math.floor(Math.random() * 10);
+        let codigo3 = Math.floor(Math.random() * 10);
+        let intentos = 5;
+        let combinacion = [];
+
+        function añadirNumero(num) {
+            if (combinacion.length < 3) {
+                combinacion.push(num);
+                actualizarPantalla();
+            }
+        }
+
+        function borrar() {
+            if (combinacion.length > 0) {
+                combinacion.pop();
+                actualizarPantalla();
+            }
+        }
+
+        function actualizarPantalla() {
+            document.getElementById('pantalla').textContent = combinacion
+                .map(num => num !== undefined ? num : "_")
+                .join(" ");
+        }
+
+        function intentar() {
+            if (combinacion.length !== 3) {
+                alert("Introduce una combinación de tres números.");
+                return;
+            }
+
+            const [n1, n2, n3] = combinacion;
+            const pistas = { pista1: '', pista2: '', pista3: '' };
+
+            if (n1 !== codigo1) pistas.pista1 = `Primer dígito es ${n1 < codigo1 ? 'mayor' : 'menor'}.`;
+            if (n2 !== codigo2) pistas.pista2 = `Segundo dígito es ${n2 < codigo2 ? 'mayor' : 'menor'}.`;
+            if (n3 !== codigo3) pistas.pista3 = `Tercer dígito es ${n3 < codigo3 ? 'mayor' : 'menor'}.`;
+
+            if (n1 === codigo1 && n2 === codigo2 && n3 === codigo3) {
+                document.getElementById('cajaAbierta').style.display = 'block';
+                document.getElementById('botonReiniciar').style.display = 'inline';
+                return;
+            }
+            
+            intentos--;
+            document.getElementById('intentos').innerText = `Intentos restantes: ${intentos}`;
+            document.getElementById('pista1').innerText = pistas.pista1;
+            document.getElementById('pista2').innerText = pistas.pista2;
+            document.getElementById('pista3').innerText = pistas.pista3;
+            combinacion = []; // Reinicia la combinación
+            actualizarPantalla();
+
+            if (intentos <= 0) {
+                document.getElementById('policia').style.display = 'block';
+                document.getElementById('botonReiniciar').style.display = 'inline';
+            }
+        }
+
+        function reiniciar() {
+            codigo1 = Math.floor(Math.random() * 10);
+            codigo2 = Math.floor(Math.random() * 10);
+            codigo3 = Math.floor(Math.random() * 10);
+            intentos = 5;
+            combinacion = [];
+            actualizarPantalla();
+            document.getElementById('intentos').innerText = 'Intentos restantes: 5';
+            document.getElementById('pista1').innerText = '';
+            document.getElementById('pista2').innerText = '';
+            document.getElementById('pista3').innerText = '';
+            document.getElementById('botonReiniciar').style.display = 'none';
+            document.getElementById('cajaAbierta').style.display = 'none';
+            document.getElementById('policia').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
+

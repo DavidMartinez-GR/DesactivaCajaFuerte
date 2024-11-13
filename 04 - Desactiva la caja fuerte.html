@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Caja Fuerte</title>
+    <link rel="icon" href="imagenes/caja.ico" type="image/x-icon">
+    <link rel="stylesheet" href="estilos.css">    
+</head>
+<body>
+    <div class="titulo"> 
+        <h1>BANCO BBVA</h1>
+    </div>
+    <div class="cajaFuerte">
+        <img src="imagenes/cajaFuerte.png" height="300px" width="300px">
+        <p>Introduce la combinación de tres números (0 a 9) para abrir la caja fuerte.</p>
+
+        <input type="text" id="caja1" value="Primer digito">
+        <input type="text" id="caja2" value="Segundo digito">
+        <input type="text" id="caja3" value="Tercer digito">
+        
+        <div id="boton1" class="boton1"><input type="button" class="botonIntentar" onclick="intentar()" value="Intentar"></div>
+        <div class="password"><b>PASS <input type="password" id="pass" class="pass" onmouseover="mostrar();" onmouseout="ocultar();"></b></div>
+
+        <div id="pista1"></div>
+        <div id="pista2"></div>
+        <div id="pista3"></div>
+        <div id="intentos"></div>
+
+        <input id="botonReiniciar" class="botonReiniciar" type="button" value="Reiniciar" onclick="reiniciar();" style="display: none;">
+        </div>
+    <div class="cajaAbierta" id="cajaAbierta" style="display: none;">
+        <h2>¡¡Felicidades abriste la caja fuerte!!</h2>
+        <img src="imagenes/abierta.jpg">
+    </div>
+
+    <div class="policia" id="policia" style="display: none;">
+        <h2>¡¡Has sido atrapado in fraganti, CHORIZO!!</h2>
+        <img src="imagenes/detenido.png">
+    </div>
+</body>
+
+<script type="text/javascript">
+
+    var codigo1 = Math.floor(Math.random() * 10);
+    var codigo2 = Math.floor(Math.random() * 10);
+    var codigo3 = Math.floor(Math.random() * 10);
+    var intentos = 0;
+    var password = codigo1 + "   " + codigo2 + "   " + codigo3;
+    document.getElementById('pass').value = password;
+
+    function mostrar(){
+        document.getElementById('pass').type = 'text';
+    }
+
+    function ocultar(){
+        document.getElementById('pass').type = 'password';
+    }
+
+    function intentar() {
+        var n1 = parseInt(document.getElementById('caja1').value);
+        var n2 = parseInt(document.getElementById('caja2').value);
+        var n3 = parseInt(document.getElementById('caja3').value);
+
+        intentos++;
+        var pista1 = '';
+        var pista2 = '';
+        var pista3 = '';
+
+        if (n1 < codigo1){
+            pista1 = 'El primer número es mayor. ';
+        } else if (n1 > codigo1){
+            pista1 = 'El primer número es menor. ';
+        } 
+        if (n2 < codigo2){
+            pista2 = 'El segundo número es mayor. ';
+        } else if (n2 > codigo2){
+            pista2 = 'El segundo número es menor. ';
+        }
+        if (n3 < codigo3){
+            pista3 = 'El tercer número es mayor. ';
+        } else if (n3 > codigo3){
+            pista3 = 'El tercer número es menor. ';
+        }
+
+        document.getElementById('pista1').innerHTML = pista1;
+        document.getElementById('pista2').innerHTML = pista2;
+        document.getElementById('pista3').innerHTML = pista3;
+        document.getElementById('intentos').innerHTML = 'Intentos: ' + intentos + ' de 5';
+
+        if (n1 === codigo1 && n2 === codigo2 && n3 === codigo3) {
+            document.getElementById('cajaAbierta').style.display = 'block';
+            document.getElementById('botonReiniciar').style.display = 'block';
+            document.getElementById('boton1').style.display = 'none';
+        } else if (intentos >= 5) {
+            document.getElementById('policia').style.display = 'block';
+            document.getElementById('botonReiniciar').style.display = 'block';
+            document.getElementById('boton1').style.display = 'none';
+        }
+    }
+
+    function reiniciar() {
+        codigo1 = Math.floor(Math.random() * 10);
+        codigo2 = Math.floor(Math.random() * 10);
+        codigo3 = Math.floor(Math.random() * 10);
+        var password = codigo1 + "   " + codigo2 + "   " + codigo3;
+        document.getElementById('pass').value = password;
+        intentos = 0;
+        document.getElementById('caja1').value = '';
+        document.getElementById('caja2').value = '';
+        document.getElementById('caja3').value = '';
+        document.getElementById('pista1').innerHTML = '';
+        document.getElementById('pista2').innerHTML = '';
+        document.getElementById('pista3').innerHTML = '';
+        document.getElementById('intentos').innerHTML = '';
+        document.getElementById('boton1').style.display = 'block';
+        document.getElementById('botonReiniciar').style.display = 'none';
+        document.getElementById('cajaAbierta').style.display = 'none';
+        document.getElementById('policia').style.display = 'none';
+    }
+</script>
+</html>

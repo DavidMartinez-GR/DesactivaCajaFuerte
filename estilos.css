@@ -1,0 +1,90 @@
+body{
+    font-family: Arial;
+    background-image: url('imagenes/fondo.png');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+.titulo{
+    text-align: center;
+    background-color: burlywood;
+    border: 1px solid;
+    border-radius: 8px;
+    margin-left: 35%;
+    margin-right: 35%;
+    margin-top: 2%;
+}
+
+.cajaFuerte{
+    text-align: center;
+    background-color: burlywood;
+    border: 1px solid;
+    border-radius: 8px;
+    margin-left: 25%;
+    margin-right: 25%;
+    margin-top: 10%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+input{
+    text-align: center;
+    padding: 10px;
+    font-size: 16px;
+    color: #333;
+    background-color: #f9f9f9;
+    border: 2px solid;
+    border-color: #ccc;
+    border-radius: 20px;
+    outline: none;
+    margin-bottom: 1%;
+}
+
+input[type="button"]:hover{
+    background-color: aqua;
+}
+
+.botonIntentar{
+    background-color: grey;
+    color: black;
+    border-color: black;
+    font-weight: bold;
+    padding-left: 20px;
+    padding-right: 20px;
+    transition: background-color 0.3s;
+    cursor: pointer;
+}
+
+.botonReiniciar{
+    margin-left: 85%;
+    background-color: rgb(24, 125, 156);
+    border-color: black;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    cursor:pointer;
+}
+
+.cajaAbierta{
+    text-align: center;
+    background-color: burlywood;
+    border: 1px solid;
+    border-radius: 8px;
+    margin-left: 25%;
+    margin-right: 25%;
+    margin-top: 1%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.policia{
+    text-align: center;
+    background-color: burlywood;
+    border: 1px solid;
+    border-radius: 8px;
+    margin-left: 25%;
+    margin-right: 25%;
+    margin-top: 1%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
